@@ -15,6 +15,8 @@ namespace HelloWorld
 		public double Evasion {get; set;}
 		public int Size {get; set;}
 		public string AnimalName {get; set;}
+		public readonly Random random = new Random();
+		public int envchance;
          
 		public Animal (int attack, int speed, int defense, AnimalType type, int health, double accuracy,double evasion, int size, string name)
 
@@ -55,7 +57,28 @@ namespace HelloWorld
 
 			return chance <= Evasion;
 		}
-
+        
+        public Environment EnvChoice (){//idk what datatype to put here
+			int envchance = random.Next(0,4);//random integer 0<=i<4 (integer from 0-3)
+		    
+		    Environment[] environmentsArr={Environment.Volcano, Environment.Ocean, Environment.PowerPlant, Environment.Plains};
+			return environmentsArr[envchance];
+		} 
+		public void returnBonus(Environment currentEnvironment){
+		    bool hasBonus = (currentEnvironment == Environment.Ocean && Type == AnimalType.Water) ||
+                            (currentEnvironment == Environment.Volcano && Type == AnimalType.Fire) ||
+                            (currentEnvironment == Environment.Plains && Type == AnimalType.Ground)||
+                            (currentEnvironment == Environment.PowerPlant && Type == AnimalType.Electric);
+		
+		    if (hasBonus){
+		    Health=(int)(Health*1.1);
+		    Accuracy=Accuracy + 0.05;
+		    Speed=(int)(Speed*1.1);
+		    Console.WriteLine($"{AnimalName} receives a boost!");
+		    }
+		    
+		}
+		
 	}
     public enum AnimalType
 	{
@@ -63,6 +86,13 @@ namespace HelloWorld
 		Water, 
 		Electric,
 		Ground,
+	}
+	public enum Environment
+	{
+		Volcano,
+		Ocean, 
+		PowerPlant,
+		Plains
 	}
 } 
 
