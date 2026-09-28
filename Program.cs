@@ -4,144 +4,159 @@ namespace HelloWorld
 {
     public class Program
     {
+        public static Animal MakeAnimal(){
+            Console.WriteLine("Enter an Animal's Properties separated by spaces. (atk spd def Type hlth accu evas size Name)\nExample: 60 50 5 Water 100 0.8 0.2 100 Tiger");
+            string[] animal1Input = Console.ReadLine().Split(' ');
+            var(attack1,speed1,defense1,health1,accuracy1,evasion1,size1,animalName1)= (int.Parse(animal1Input[0]), int.Parse(animal1Input[1]),int.Parse(animal1Input[2]),int.Parse(animal1Input[4]),double.Parse(animal1Input[5]),double.Parse(animal1Input[6]),int.Parse(animal1Input[7]), animal1Input[8]);
+            
+            AnimalType animalType1;//constructs animalType1 as a value outside of if statements so it does not pull a variable scope error
+            if (string.Equals(animal1Input[3], "Fire", StringComparison.OrdinalIgnoreCase)){
+	            animalType1=AnimalType.Fire;
+             } //takes string input ignoring case and compares “Fire” to the input value given by animal1Input[3]. If the comparison is true, it casts the input into the fire type animaltype. 
+	
+            else if (string.Equals(animal1Input[3], "Water", StringComparison.OrdinalIgnoreCase)){
+	            animalType1=AnimalType.Water;
+                }
+            else if (string.Equals(animal1Input[3], "Electric", StringComparison.OrdinalIgnoreCase)){
+	            animalType1=AnimalType.Electric;
+                }
+            else if (string.Equals(animal1Input[3], "Ground", StringComparison.OrdinalIgnoreCase)){
+	            animalType1=AnimalType.Ground;
+                }
+            else {
+                throw new Exception("Invalid Animal Type"); //throws error message if a non-valid element is entered 
+                }
+
+            Animal animal1 = new Animal(
+                attack1,
+                speed1,
+                defense1,
+                animalType1,
+                health1,
+                accuracy1,
+                evasion1,
+                size1,
+                animalName1
+            );// take up to here and enter into a function and call this fucntion twice 
+            Console.WriteLine($"Name: {animal1.AnimalName} | Health: {animal1.Health} | Element: {animal1.Type} | Size: {animal1.Size}");
+
+            return animal1;
+            }
         public static void Main(string[] args)
         {
-            Animal animal1 = new Animal(
-                80,
-                70,
-                60,
-                AnimalType.Fire,
-                100,
-                0.80,
-                0.20,
-                5,
-                "Harry"
-            );
+            
+            var p1= MakeAnimal();//doesnt need new command since it is a static method
+            var p2= MakeAnimal();
+        
 
-            Console.WriteLine($"Name: {animal1.AnimalName} Health: {animal1.Health} Element: {animal1.Type} Size: {animal1.Size}");
-
-            Animal animal2 = new Animal(
-                75,
-                70,
-                50,
-                AnimalType.Water,
-                100,
-                0.90,
-                0.20,
-                6,
-                "Filimon"
-            );
-
-            Console.WriteLine($"Name: {animal2.AnimalName} Health: {animal2.Health} Element: {animal2.Type} Size: {animal2.Size}");
-
-            if (animal1.Speed > animal2.Speed)
+            if (p1.Speed > p2.Speed)
             {
-                Console.WriteLine($"{animal1.AnimalName} is faster");
+                Console.WriteLine($"{p1.AnimalName} is faster");
             }
-            else if (animal2.Speed > animal1.Speed)
+            else if (p2.Speed > p1.Speed)
             {
-                Console.WriteLine($"{animal2.AnimalName} is faster");
+                Console.WriteLine($"{p2.AnimalName} is faster");
             }
             else
             {
                 Console.WriteLine("They have the same speed");
             }
 
-            while (animal1.Health > 0 && animal2.Health > 0)
+            while (p1.Health > 0 && p2.Health > 0)
             {
                 // Animal 1 attacks first
-                if (animal1.Speed > animal2.Speed)
+                if (p1.Speed > p2.Speed)
                 {
-                    if (animal1.CheckAccuracy())
+                    if (p1.CheckAccuracy())
                     {
-                        if (animal2.CheckEvasion())
+                        if (p2.CheckEvasion())
                         {
-                            Console.WriteLine($"{animal2.AnimalName} evaded the attack!");
+                            Console.WriteLine($"{p2.AnimalName} evaded the attack!");
                         }
                         else
                         {
-                            Console.WriteLine($"{animal1.AnimalName} attacks {animal2.AnimalName}");
-                            animal1.AttackTarget(animal2);
-                            Console.WriteLine($"{animal2.AnimalName} Health: " + animal2.Health);
+                            Console.WriteLine($"{p1.AnimalName} attacks {p2.AnimalName}");
+                            p1.AttackTarget(p2);
+                            Console.WriteLine($"{p2.AnimalName} Health: " + p2.Health);
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"{animal1.AnimalName} missed!");
+                        Console.WriteLine($"{p1.AnimalName} missed!");
                     }
 
                     // Check if Animal 2 is defeated
-                    if (animal2.Health <= 0)
+                    if (p2.Health <= 0)
                     {
-                        Console.WriteLine($"{animal2.AnimalName} is defeated!");
+                        Console.WriteLine($"{p2.AnimalName} is defeated!");
                         break;
                     }
 
                     // Animal 2 attacks back
-                    if (animal2.CheckAccuracy())
+                    if (p2.CheckAccuracy())
                     {
-                        if (animal1.CheckEvasion())
+                        if (p1.CheckEvasion())
                         {
-                            Console.WriteLine($"{animal1.AnimalName} evaded the attack!");
+                            Console.WriteLine($"{p1.AnimalName} evaded the attack!");
                         }
                         else
                         {
-                            Console.WriteLine($"{animal2.AnimalName} attacks {animal1.AnimalName}");
-                            animal2.AttackTarget(animal1);
-                            Console.WriteLine($"{animal1.AnimalName} Health: " + animal1.Health);
+                            Console.WriteLine($"{p2.AnimalName} attacks {p1.AnimalName}");
+                            p2.AttackTarget(p1);
+                            Console.WriteLine($"{p1.AnimalName} Health: " + p1.Health);
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"{animal2.AnimalName} missed!");
+                        Console.WriteLine($"{p2.AnimalName} missed!");
                     }
                 }
 
                 // Animal 2 attacks first
                 else
                 {
-                    if (animal2.CheckAccuracy())
+                    if (p2.CheckAccuracy())
                     {
-                        if (animal1.CheckEvasion())
+                        if (p1.CheckEvasion())
                         {
-                            Console.WriteLine($"{animal1.AnimalName} evaded the attack!");
+                            Console.WriteLine($"{p1.AnimalName} evaded the attack!");
                         }
                         else
                         {
-                            Console.WriteLine($"{animal2.AnimalName} attacks {animal1.AnimalName}");
-                            animal2.AttackTarget(animal1);
-                            Console.WriteLine($"{animal1.AnimalName} Health: " + animal1.Health);
+                            Console.WriteLine($"{p2.AnimalName} attacks {p1.AnimalName}");
+                            p2.AttackTarget(p1);
+                            Console.WriteLine($"{p1.AnimalName} Health: " + p1.Health);
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"{animal2.AnimalName} missed!");
+                        Console.WriteLine($"{p2.AnimalName} missed!");
                     }
 
                     // Check if Animal 1 is defeated
-                    if (animal1.Health <= 0)
+                    if (p1.Health <= 0)
                     {
-                        Console.WriteLine($"{animal1.AnimalName} is defeated!");
+                        Console.WriteLine($"{p1.AnimalName} is defeated!");
                         break;
                     }
 
                     // Animal 1 attacks back
-                    if (animal1.CheckAccuracy())
+                    if (p1.CheckAccuracy())
                     {
-                        if (animal2.CheckEvasion())
+                        if (p2.CheckEvasion())
                         {
-                            Console.WriteLine($"{animal2.AnimalName} evaded the attack!");
+                            Console.WriteLine($"{p2.AnimalName} evaded the attack!");
                         }
                         else
                         {
-                            Console.WriteLine($"{animal1.AnimalName} attacks {animal2.AnimalName}");
-                            animal1.AttackTarget(animal2);
-                            Console.WriteLine($"{animal2.AnimalName} Health: " + animal2.Health);
+                            Console.WriteLine($"{p1.AnimalName} attacks {p2.AnimalName}");
+                            p1.AttackTarget(p2);
+                            Console.WriteLine($"{p2.AnimalName} Health: " + p2.Health);
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"{animal1.AnimalName} missed!");
+                        Console.WriteLine($"{p1.AnimalName} missed!");
                     }
                 }
 
