@@ -47,7 +47,11 @@ namespace HelloWorld
             
             var p1= MakeAnimal();//doesnt need new command since it is a static method
             var p2= MakeAnimal();
-        
+            Environment battlefieldEnv = p1.EnvChoice();
+            Console.WriteLine($"Current Environment: {battlefieldEnv}");
+            p1.returnBonus(battlefieldEnv);
+            p2.returnBonus(battlefieldEnv);
+            Console.WriteLine();
 
             if (p1.Speed > p2.Speed)
             {
