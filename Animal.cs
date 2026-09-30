@@ -58,7 +58,7 @@ namespace HelloWorld
 			return chance <= Evasion;
 		}
         
-        public Environment EnvChoice (){//idk what datatype to put here
+        public Environment EnvChoice (){//references enum as datatype for method
 			int envchance = random.Next(0,4);//random integer 0<=i<4 (integer from 0-3)
 		    
 		    Environment[] environmentsArr={Environment.Volcano, Environment.Ocean, Environment.PowerPlant, Environment.Plains};
