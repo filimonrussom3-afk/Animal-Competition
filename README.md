@@ -94,7 +94,7 @@ Evasion is the probability of a defending animal avoiding an attack from the att
 		public bool CheckEvasion() => random.NextDouble() <= Evasion;
 ```
 ### Cosmetics Properties:
-Cosmetic properties provide no real battle advantage and are purely for Animal differentiation. The cosmetic properties can be found in the [Program.cs](https://github.com/filimonrussom3-afk/Animal-Competition/edit/main/README.md) class. 
+Cosmetic properties provide no real battle advantage and are purely for Animal differentiation. The cosmetic properties can be found and edited in the [Program.cs](https://github.com/filimonrussom3-afk/Animal-Competition/edit/main/README.md) class. 
 #### Size:
 The animal's size is a cosmetic trait players can give to animals for an added personalization factor. The user can enter an animal's size when prompted in the I/O console when the game is running. The size property is printed by:
 ```csharp
