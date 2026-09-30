@@ -105,3 +105,4 @@ The animal's Name is a cosmetic trait players can give to animals for an added p
 ```csharp
 		 Console.WriteLine($"Name: {animal1.AnimalName} | Health: {animal1.Health} | Element: {animal1.Type} | Size: {animal1.Size}");
 ```
+### Environment Bonuses:
