@@ -1,5 +1,5 @@
 # Overview:
-Animal Competition is a two player turn based strategy game where players are able to customize the properties of animals and watch them battle each other. The goal of animal competition is to find what mixtures of modifiers and conditions lead to a winning animal or losing animal. An animal loses when it's health is less than or equal to zero. 
+**Animal Competition** is a two player turn based strategy game where players are able to customize the properties of animals and watch them battle each other. The goal of animal competition is to find what mixtures of properties and randomized conditions lead to a winning animal or losing animal. An animal loses when it's health is less than or equal to zero. 
 
 ## Properties:
 Animals have nine customizable properties: Damage, Speed, Defense, Type/Element, Accuracy, Evasion, Size and Name. Players can choose from 4 animal types/animal elements, Fire, Water, Ground, and Electric. The combinations of the Element bonuses and player configured properties can completely change the outcome of the competition. 
@@ -54,7 +54,7 @@ Defense is calculated in the `AttackTarget` method, particularly this line:
 ```
 ### Type/Element:
 
-The Animal elements/types can be found and edited in the `AnimalType` enum. The purpose of the animal types are to give certain animals damage advantages over animals with opposing types. The type advantage system is calculated by the `GetTypeMultiplier` method:
+The Animal elements/types can be found and edited in the `AnimalType` enum. The purpose of the animal types are to give certain animals damage advantages over animals with conflicting types via damage boost. The type advantage system is calculated by the `GetTypeMultiplier` method:
 
 ```csharp
 		public double GetTypeMultiplier(AnimalType defenderType)
@@ -106,9 +106,17 @@ The animal's Name is a cosmetic trait players can give to animals for an added p
 		 Console.WriteLine($"Name: {animal1.AnimalName} | Health: {animal1.Health} | Element: {animal1.Type} | Size: {animal1.Size}");
 ```
 ### Environment Bonuses:
-The environments are randomly generated using an integer between 0 and 3. This integer corresponds to an array element with a held `enum Environment` value. 
+Environments are randomly generated using an integer between 0 and the length of the array. This integer corresponds to an array element with a held `enum Environment` value. 
 ```csharp
- public void returnBonus(Environment currentEnvironment)
+public Environment EnvChoice()
+        {
+            Environment[] environments = (Environment[])Enum.GetValues(typeof(Environment));
+            return environments[random.Next(environments.Length)];
+        }
+```
+If the animal's element type and the randomly selected environment are compatible, the animal gets bonuses to it's health, speed, and accuracy. Calculated in the `returnBonus` method:
+```csharp
+	 public void returnBonus(Environment currentEnvironment)
         {
             bool hasBonus = (currentEnvironment, Type) switch
             {
@@ -118,14 +126,13 @@ The environments are randomly generated using an integer between 0 and 3. This i
                 (Environment.PowerPlant, AnimalType.Electric) => true,
                 _ => false
             };
-```
-If the animal's element type and the randomly selected environment are compatible, the animal gets bonuses to it's health, speed, and accuracy. Calculated in the `returnBonus` method, specifically this line:
-```csharp
-	 if (hasBonus)
-	            {
-	                Health = (int)(Health * 1.1);
-	                Accuracy = Math.Min(1.0, Accuracy + 0.05);
-	                Speed = (int)(Speed * 1.1);
-	                Console.WriteLine($"{AnimalName} receives an environmental boost!");
-	            }
+
+            if (hasBonus)
+            {
+                Health = (int)(Health * 1.1);
+                Accuracy = Math.Min(1.0, Accuracy + 0.05);
+                Speed = (int)(Speed * 1.1);
+                Console.WriteLine($"{AnimalName} receives an environmental boost!");
+            }
+        }
 ```
