@@ -7,6 +7,7 @@ namespace HelloWorld
     {
         private static readonly Random random = new Random();
 
+        // Basic stats for each animal.
         public int Attack { get; set; }
         public int Speed { get; set; }
         public int Defense { get; set; }
@@ -31,7 +32,8 @@ namespace HelloWorld
             AnimalName = name;
         }
 
-        //TYPE ADVANTAGE SYSTEM 
+        // TYPE ADVANTAGE SYSTEM 
+        //  Applies type advantages and weaknesses between attacker and defender.
         public double GetTypeMultiplier(AnimalType defenderType)
         {
             return (this.Type, defenderType) switch
@@ -98,6 +100,7 @@ namespace HelloWorld
             return environments[random.Next(environments.Length)];
         }
 
+        // Gives a bonus when an animal matchs the current environment.
         public void returnBonus(Environment currentEnvironment)
         {
             bool hasBonus = (currentEnvironment, Type) switch
@@ -119,6 +122,7 @@ namespace HelloWorld
         }
     }
 
+    // The four possible combat element types.
     public enum AnimalType
     {
         Fire,
@@ -127,6 +131,7 @@ namespace HelloWorld
         Ground
     }
 
+    // The battle arenas that grants bonuses to matching types.
     public enum Environment
     {
         Volcano,
