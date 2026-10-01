@@ -16,7 +16,8 @@ namespace HelloWorld
         public double Evasion { get; set; }
         public int Size { get; set; }
         public string AnimalName { get; set; }
-
+    
+         // Constructor: creates an amimal with all of its stats.
         public Animal(int attack, int speed, int defense, AnimalType type, int health, double accuracy, double evasion, int size, string name)
         {
             Attack = attack;
@@ -30,33 +31,34 @@ namespace HelloWorld
             AnimalName = name;
         }
 
-        //TYPE ADVANTAGE SYSTEM ---
+        //TYPE ADVANTAGE SYSTEM 
         public double GetTypeMultiplier(AnimalType defenderType)
         {
             return (this.Type, defenderType) switch
             {
-                // Fire attacker
+                // Fire attacks are strong against Ground and weak against Water.
                 (AnimalType.Fire, AnimalType.Ground) => 2.0,
                 (AnimalType.Fire, AnimalType.Water) => 0.5,
 
-                // Water attacker
+                // Water attacks are strong against Fire and weak against Electric
                 (AnimalType.Water, AnimalType.Fire) => 2.0,
                 (AnimalType.Water, AnimalType.Electric) => 0.5,
 
-                // Electric attacker
+                // Electric attacks are strong against Water and weak against Ground.
                 (AnimalType.Electric, AnimalType.Water) => 2.0,
                 (AnimalType.Electric, AnimalType.Ground) => 0.5,
 
-                // Ground attacker
+                // Ground attacks are strong against Electric and weak against Fire
                 (AnimalType.Ground, AnimalType.Electric) => 2.0,
                 (AnimalType.Ground, AnimalType.Fire) => 0.5,
 
-                // Default neutral multiplier
+                // If no type advantage applies, the damage starys normal.
                 _ => 1.0
             };
         }
 
-        // ATTACK METHOD WITH TYPE MULTIPLIER ---
+        // ATTACK METHOD WITH TYPE MULTIPLIER 
+        // Calculates and applies damage to another animal.
         public void AttackTarget(Animal target)
         {
             double typeMultiplier = GetTypeMultiplier(target.Type);
@@ -70,21 +72,26 @@ namespace HelloWorld
                 Console.WriteLine("It's not very effective...");
             }
 
+            // Defense reduces incoming damge by up to 100%
             double defenseMultiplier = Math.Max(0, 1.0 - (target.Defense / 100.0));
             int damage = (int)(Attack * defenseMultiplier * typeMultiplier);
             
             target.Health -= damage;
         }
 
+        
         public void Defend()
         {
             Console.WriteLine($"{AnimalName} is defending!");
         }
 
+        // Returns true if the attack lands based on accuracy percentage.
         public bool CheckAccuracy() => random.NextDouble() <= Accuracy;
-
+       
+        // Returns true if the attack doges based on evasion percentage.
         public bool CheckEvasion() => random.NextDouble() <= Evasion;
 
+        // Picks a random environment for the battle.
         public Environment EnvChoice()
         {
             Environment[] environments = (Environment[])Enum.GetValues(typeof(Environment));
