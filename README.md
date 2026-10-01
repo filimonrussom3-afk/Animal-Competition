@@ -106,3 +106,26 @@ The animal's Name is a cosmetic trait players can give to animals for an added p
 		 Console.WriteLine($"Name: {animal1.AnimalName} | Health: {animal1.Health} | Element: {animal1.Type} | Size: {animal1.Size}");
 ```
 ### Environment Bonuses:
+The environments are randomly generated using an integer between 0 and 3. This integer corresponds to an array element with a held `enum Environment` value. 
+```csharp
+ public void returnBonus(Environment currentEnvironment)
+        {
+            bool hasBonus = (currentEnvironment, Type) switch
+            {
+                (Environment.Ocean, AnimalType.Water) => true,
+                (Environment.Volcano, AnimalType.Fire) => true,
+                (Environment.Plains, AnimalType.Ground) => true,
+                (Environment.PowerPlant, AnimalType.Electric) => true,
+                _ => false
+            };
+```
+If the animal's element type and the randomly selected environment are compatible, the animal gets bonuses to it's health, speed, and accuracy. Calculated in the `returnBonus` method, specifically this line:
+```csharp
+	 if (hasBonus)
+	            {
+	                Health = (int)(Health * 1.1);
+	                Accuracy = Math.Min(1.0, Accuracy + 0.05);
+	                Speed = (int)(Speed * 1.1);
+	                Console.WriteLine($"{AnimalName} receives an environmental boost!");
+	            }
+```
