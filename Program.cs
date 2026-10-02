@@ -4,13 +4,24 @@ namespace HelloWorld
 {
     public class Program
     {
-        public static Animal MakeAnimal(){
+		// create a new animal from user input.
+		// Input format: atk spd def hlth accu evas size Name
+		// Example: 60 50 5 Water 100 0.8 0.2 100 Tiger
+        public static Animal MakeAnimal()
+		{
+            // Requires the user to enter the animal data in the required order.
+			
             Console.WriteLine("Enter an Animal's Properties separated by spaces. (atk spd def Type hlth accu evas size Name)\nExample: 60 50 5 Water 100 0.8 0.2 100 Tiger");
-            string[] animal1Input = Console.ReadLine().Split(' ');
-            var(attack1,speed1,defense1,health1,accuracy1,evasion1,size1,animalName1)= (int.Parse(animal1Input[0]), int.Parse(animal1Input[1]),int.Parse(animal1Input[2]),int.Parse(animal1Input[4]),double.Parse(animal1Input[5]),double.Parse(animal1Input[6]),int.Parse(animal1Input[7]), animal1Input[8]);
+            
+			// Reads the input and splits it into separate values.
+			string[] animal1Input = Console.ReadLine().Split(' ');
+            
+			// Converts the values to hte correct data types.
+			var(attack1,speed1,defense1,health1,accuracy1,evasion1,size1,animalName1)= (int.Parse(animal1Input[0]), int.Parse(animal1Input[1]),int.Parse(animal1Input[2]),int.Parse(animal1Input[4]),double.Parse(animal1Input[5]),double.Parse(animal1Input[6]),int.Parse(animal1Input[7]), animal1Input[8]);
             
             AnimalType animalType1;//constructs animalType1 as a value outside of if statements so it does not pull a variable scope error
-            if (string.Equals(animal1Input[3], "Fire", StringComparison.OrdinalIgnoreCase)){
+           
+			if (string.Equals(animal1Input[3], "Fire", StringComparison.OrdinalIgnoreCase)){
 	            animalType1=AnimalType.Fire;
              } //takes string input ignoring case and compares “Fire” to the input value given by animal1Input[3]. If the comparison is true, it casts the input into the fire type animaltype. 
 	
