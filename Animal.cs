@@ -5,6 +5,7 @@ namespace HelloWorld
 {
     public class Animal : IAttacker, IDefender, IAccuracy, IEvader
     {
+    // Shared random generator used for hit chance, dodge chance and environment selection.
         private static readonly Random random = new Random();
 
         // Basic stats for each animal.
@@ -54,7 +55,7 @@ namespace HelloWorld
                 (AnimalType.Ground, AnimalType.Electric) => 2.0,
                 (AnimalType.Ground, AnimalType.Fire) => 0.5,
 
-                // If no type advantage applies, the damage starys normal.
+                // If no type advantage applies, the damage remains normal.
                 _ => 1.0
             };
         }
@@ -81,7 +82,7 @@ namespace HelloWorld
             target.Health -= damage;
         }
 
-        
+        // Placeholder method for a future defensive action.
         public void Defend()
         {
             Console.WriteLine($"{AnimalName} is defending!");
